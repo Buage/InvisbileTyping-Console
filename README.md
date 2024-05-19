@@ -50,7 +50,6 @@ function addToggleButton() {
     textBar.appendChild(button);
 }
 
-// Function to toggle "typing" requests blocking
 function toggleTypingBlock(block) {
     if (block) {
         if (!XMLHttpRequest.prototype._originalSend) {
@@ -109,9 +108,9 @@ function reloadScriptAfterURLChange() {
     
     const intervalId = setInterval(function() {
         if (currentURL !== window.location.href) {
-            clearInterval(intervalId); // Stop checking
-            clearTimeout(timeout); // Clear previous timeout if any
-            // Wait for 10 milliseconds before re-executing the script
+            clearInterval(intervalId);
+            clearTimeout(timeout);
+
             timeout = setTimeout(function() {
                 executeScript();
             }, 10);
