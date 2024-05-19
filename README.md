@@ -9,7 +9,6 @@ How to use this script:
 3. Go to `Console` tab
 4. Paste the following code and press Enter. If it doesn't work, type `allow pasting` then retry
 ```js
-// Function to add the toggle button to the toolbar
 function addToggleButton() {
     const textBar = document.querySelector('.buttons__7ecff');
     if (!textBar) {
@@ -17,21 +16,18 @@ function addToggleButton() {
         return;
     }
 
-    // Create the button
     const button = document.createElement('button');
     const img = document.createElement('img');
-    img.style.width = '30px'; // Adjust image size as needed
+    img.style.width = '30px';
     img.style.height = '30px';
     button.appendChild(img);
 
-    // Add styles to the button
     button.style.backgroundColor = 'transparent';
     button.style.border = 'none';
     button.style.padding = '0';
     button.style.cursor = 'pointer';
-    button.style.marginRight = '10px'; // Add right padding
+    button.style.marginRight = '10px';
 
-    // Add an event listener to toggle the functionality
     let isBlocking = getCookie('typingBlockEnabled') === 'true';
     updateButtonState();
     button.addEventListener('click', function() {
@@ -41,7 +37,6 @@ function addToggleButton() {
         toggleTypingBlock(isBlocking);
     });
 
-    // Function to update the button state and image
     function updateButtonState() {
         if (isBlocking) {
             img.src = 'https://media.discordapp.net/attachments/1241660726855077928/1241660758987898900/Typing-Disabled.png?ex=664b0231&is=6649b0b1&hm=fde7786a70ec8e0580200020c7bb673a3eaea5794c30f7ba1a51b2db7019fd2b&=&format=webp&quality=lossless';
@@ -52,19 +47,16 @@ function addToggleButton() {
         }
     }
 
-    // Append the button to the text bar
     textBar.appendChild(button);
 }
 
 // Function to toggle "typing" requests blocking
 function toggleTypingBlock(block) {
     if (block) {
-        // Save the original send method if not already saved
         if (!XMLHttpRequest.prototype._originalSend) {
             XMLHttpRequest.prototype._originalSend = XMLHttpRequest.prototype.send;
         }
         
-        // Redefine the send method to block "typing" requests
         XMLHttpRequest.prototype.send = function() {
             if (this._url && this._url.includes('/api/v9/channels/') && this._url.endsWith('/typing')) {
                 console.log('Typing request blocked:', this._url);
@@ -73,7 +65,6 @@ function toggleTypingBlock(block) {
             return XMLHttpRequest.prototype._originalSend.apply(this, arguments);
         };
 
-        // Redefine the open method to capture the request URL
         if (!XMLHttpRequest.prototype._originalOpen) {
             XMLHttpRequest.prototype._originalOpen = XMLHttpRequest.prototype.open;
         }
@@ -82,7 +73,6 @@ function toggleTypingBlock(block) {
             return XMLHttpRequest.prototype._originalOpen.apply(this, arguments);
         };
     } else {
-        // Restore the original methods
         if (XMLHttpRequest.prototype._originalSend) {
             XMLHttpRequest.prototype.send = XMLHttpRequest.prototype._originalSend;
         }
@@ -92,7 +82,6 @@ function toggleTypingBlock(block) {
     }
 }
 
-// Function to set a cookie
 function setCookie(name, value, days) {
     let expires = '';
     if (days) {
@@ -103,7 +92,6 @@ function setCookie(name, value, days) {
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
-// Function to get the value of a cookie
 function getCookie(name) {
     const nameEQ = name + "=";
     const ca = document.cookie.split(';');
@@ -115,12 +103,10 @@ function getCookie(name) {
     return null;
 }
 
-// Function to reload the script after a URL change
 function reloadScriptAfterURLChange() {
     const currentURL = window.location.href;
     let timeout;
     
-    // Check for URL change every 100 milliseconds
     const intervalId = setInterval(function() {
         if (currentURL !== window.location.href) {
             clearInterval(intervalId); // Stop checking
@@ -133,16 +119,12 @@ function reloadScriptAfterURLChange() {
     }, 100);
 }
 
-// Function to execute the script
 function executeScript() {
     addToggleButton();
     reloadScriptAfterURLChange();
 }
 
-// Initial execution of the script
 executeScript();
-
-console.log('Script to add a typing block toggle button loaded.');
 ```
 7. You can now toggle the option to disable Typing Indicator, when there is no red bar, this mean everyone can see you type, else nobody see you type
 
